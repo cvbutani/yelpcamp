@@ -59,7 +59,7 @@ app.get("/campgrounds", function(req, res) {
 //  NEW CAMPGROUND ROUTE
 //  ====================
 
-app.get("/campgrounds/new", function(req, res) {
+app.get("/campgrounds/new", isLoggedIn, function(req, res) {
     res.render("campgrounds/new.ejs");
 });
 
@@ -100,7 +100,7 @@ app.post("/campgrounds", function(req, res) {
 //  COMMENTS ROUTE
 //  ==============
 
-app.get("/campgrounds/:id/comments/new", function(req, res) {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res) {
     Campground.findById(req.params.id, function(err,campground)  {
         if (err) {
             console.log(err);
@@ -110,7 +110,7 @@ app.get("/campgrounds/:id/comments/new", function(req, res) {
     });
 });
 
-app.post("/campgrounds/:id/comments", function(req,res){
+app.post("/campgrounds/:id/comments",isLoggedIn, function(req,res){
     Campground.findById(req.params.id, function(err,campground)  {
         if (err) {
             console.log(err);
@@ -165,6 +165,22 @@ app.post("/login", passport.authenticate("local",
     }),  function(req, res) {
     res.send("LOGIN LOGIC");
 });
+
+//  ============
+//  LOGOUT ROUTE
+//  ============
+
+app.get("/logout", function(req, res) {
+    req.logout();
+    res.redirect("/campgrounds");
+});
+
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Connected to server");
