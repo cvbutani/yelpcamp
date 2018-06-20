@@ -2,6 +2,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
+            <div class="form-group">
+                <a href="/campgrounds" class="btn btn-lg btn-default btn-block" role="button">Go Back</a>
+            </div>
             <p class="lead">YelpCamp</p>
             <div class="list-group">
                 <li class="list-group-item active">Site 1</li>
@@ -15,14 +18,15 @@
                 <div class="caption-full">
                     <h4 class="pull-right">$<%= campground.price %> per night</h4>
                     <h4><a><%= campground.name %></a></h4>
+                    <h5><em><%= campground.location %></em></h5>
                     <p><%= campground.description %></p>
                     <p>
                        <strong><em>Submitted By <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em></strong>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-                    <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
                     <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger">Delete</button>
+                        <button class="btn btn-danger">Delete</button>
                     </form>
                     <% } %>
                 </div>

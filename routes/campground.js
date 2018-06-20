@@ -33,12 +33,13 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     var name = req.body.name;
     var price = req.body.price;
     var image = req.body.image;
+    var location = req.body.location;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
     var description = req.body.description;
-    var newCampground = {name:name, price:price, image:image, description:description, author: author};
+    var newCampground = {name:name, price:price, location:location, image:image, description:description, author: author};
     
     Campground.create(newCampground, function(err, newCamp){
         if(err) {
