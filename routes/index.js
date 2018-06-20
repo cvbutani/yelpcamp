@@ -14,14 +14,14 @@ router.get("/", function(req, res) {
 });
 
 router.get("/register", function(req, res) {
-    res.render("register");
+    res.render("register", {page: 'register'});
 });
 
 router.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err,user){
         if(err){
-            return res.render("register");
+            return res.render("register", {error: err.message});
         }
         passport.authenticate("local")(req, res, function(){
             req.flash("success", "Welcoeme to Yelpcamp " + user.username);
@@ -31,7 +31,7 @@ router.post("/register", function(req, res){
 });
 
 router.get("/login",function(req, res) {
-    res.render("login");
+    res.render("login", {page:'login'});
 });
 
 router.post("/login", passport.authenticate("local", 
